@@ -1,5 +1,6 @@
 class AppStrings {
   static String productList = "Ürün Listesi";
+  static String productmanagement = "Ürün Yönetimi";
   static String addProduct = "Ürün Ekle";
   static String productName = "Ürün Adı";
   static String productExplanation = "Açıklama";

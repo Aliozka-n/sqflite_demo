@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite_demo/consts/app_string_consts.dart';
 
+import '../base_widgets/app_text_field.dart';
 import '../data/db_helper.dart';
 import '../models/product.dart';
 
@@ -27,48 +28,42 @@ class _AddProductScreenState extends State<AddProductScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: AppStrings.productName,
-              ),
-            ),
-            TextField(
-              controller: descriptionController,
-              decoration: InputDecoration(
-                labelText: AppStrings.productExplanation,
-              ),
-            ),
-            TextField(
-              controller: priceController,
-              decoration: InputDecoration(
+            AppTextField(
+                controller: nameController, labelText: AppStrings.productName),
+            AppTextField(
+                controller: descriptionController,
+                labelText: AppStrings.productExplanation),
+            AppTextField(
+                controller: priceController,
                 labelText: AppStrings.unitPrice,
-              ),
-              keyboardType: TextInputType.number,
-            ),
+                isNumber: true),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                String name = nameController.text;
-                String description = descriptionController.text;
-                double price = double.tryParse(priceController.text) ?? 0.0;
-
-                Product product = Product(
-                  name: name,
-                  description: description,
-                  price: price,
-                );
-
-                int result = await databaseHelper.insertProduct(product);
-                if (result > 0) {
-                  Navigator.pop(context, true);
-                }
-              },
-              child: Text(AppStrings.save),
-            ),
+            action(context),
           ],
         ),
       ),
+    );
+  }
+
+  Widget action(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        String name = nameController.text;
+        String description = descriptionController.text;
+        double price = double.tryParse(priceController.text) ?? 0.0;
+
+        Product product = Product(
+          name: name,
+          description: description,
+          price: price,
+        );
+
+        int result = await databaseHelper.insertProduct(product);
+        if (result > 0) {
+          Navigator.pop(context, true);
+        }
+      },
+      child: Text(AppStrings.save),
     );
   }
 }

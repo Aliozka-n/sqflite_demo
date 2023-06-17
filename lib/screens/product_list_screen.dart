@@ -31,9 +31,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.productList),
-      ),
+      appBar: AppBar(title: Text(AppStrings.productList)),
       body: ListView.builder(
         itemCount: productList.length,
         itemBuilder: (context, index) {
@@ -51,19 +49,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         title: Text(productList[index].name),
         subtitle: Text(productList[index].description),
         trailing: Text(productList[index].price.toString()),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  EditProductScreen(product: productList[index]),
-            ),
-          ).then((value) {
-            if (value != null && value) {
-              _getProductList();
-            }
-          });
-        },
+        onTap: () => navigateEditScreen(index),
       ),
     );
   }
@@ -71,18 +57,33 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton(
       child: Icon(Icons.add),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddProductScreen(),
-          ),
-        ).then((value) {
-          if (value != null && value) {
-            _getProductList();
-          }
-        });
-      },
+      onPressed: navigateAddScreen,
     );
+  }
+
+  void navigateEditScreen(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProductScreen(product: productList[index]),
+      ),
+    ).then((value) {
+      if (value != null && value) {
+        _getProductList();
+      }
+    });
+  }
+
+  void navigateAddScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddProductScreen(),
+      ),
+    ).then((value) {
+      if (value != null && value) {
+        _getProductList();
+      }
+    });
   }
 }
