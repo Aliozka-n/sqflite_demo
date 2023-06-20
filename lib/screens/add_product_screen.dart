@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite_demo/blocs/db_bloc.dart';
 import 'package:sqflite_demo/consts/app_string_consts.dart';
 
-import '../base_widgets/app_text_field.dart';
-import '../data/db_helper.dart';
 import '../models/product.dart';
+import '../widgets/app_text_field.dart';
 
 class AddProductScreen extends StatefulWidget {
   @override
@@ -14,8 +14,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-
-  DatabaseHelper databaseHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +56,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           price: price,
         );
 
-        int result = await databaseHelper.insertProduct(product);
+        int result = await dbBloc.insertProduct(product);
         if (result > 0) {
           Navigator.pop(context, true);
         }
